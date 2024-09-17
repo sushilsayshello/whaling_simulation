@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,6 +80,38 @@
         .toggle-button:hover {
             background-color: #388e3c;
         }
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .progress-bar-fill {
+            height: 20px;
+            width: 0;
+            background-color: #76c7c0;
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +130,7 @@
             <p>We have an urgent matter that requires your immediate attention regarding the upcoming Amazon board meeting. Please review the attached document and provide your feedback by logging in with your executive credentials.</p>
             <p>Your prompt response is crucial.</p>
             <p>Best Regards,<br> Amazon Executive Team</p>
-            <button class="button" onclick="revealContent()">View Document</button>
+            <button class="button" onclick="showModal()">View Document</button>
         </div>
 
         <div id="non-phishing-email" class="email" style="display: none;">
@@ -110,8 +141,21 @@
             <p>Best Regards,<br> Amazon Executive Team</p>
         </div>
 
+        <div class="progress-bar">
+            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+        </div>
+
         <div class="hidden-content" id="hidden-content">
             <p>Warning: This is a simulated phishing attempt designed to showcase how easily high-profile targets can be manipulated through sophisticated whaling attacks.</p>
+        </div>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <p>This is a secure document. Please log in with your executive credentials to proceed.</p>
+                <input type="text" placeholder="Username"><br><br>
+                <input type="password" placeholder="Password"><br><br>
+                <button class="button" onclick="validateLogin()">Log In</button>
+            </div>
         </div>
     </div>
 
@@ -120,17 +164,34 @@
             document.getElementById('phishing-email').style.display = 'block';
             document.getElementById('non-phishing-email').style.display = 'none';
             document.getElementById('hidden-content').style.display = 'none';
+            updateProgressBar(50);
         }
 
         function showNonPhishing() {
             document.getElementById('non-phishing-email').style.display = 'block';
             document.getElementById('phishing-email').style.display = 'none';
             document.getElementById('hidden-content').style.display = 'none';
+            updateProgressBar(100);
+        }
+
+        function showModal() {
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function validateLogin() {
+            document.getElementById('modal').style.display = 'none';
+            revealContent();
+            updateProgressBar(100);
         }
 
         function revealContent() {
             var content = document.getElementById("hidden-content");
             content.style.display = "block";
+        }
+
+        function updateProgressBar(percent) {
+            var progressBarFill = document.getElementById("progress-bar-fill");
+            progressBarFill.style.width = percent + '%';
         }
     </script>
 </body>
