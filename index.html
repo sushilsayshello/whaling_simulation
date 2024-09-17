@@ -1,1 +1,137 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whaling Attack Simulation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            padding: 30px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .email {
+            background-color: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 10px;
+            margin: 20px 0;
+            padding: 20px;
+            text-align: left;
+        }
+        .email h2 {
+            color: #1976d2;
+        }
+        .button {
+            background-color: #1976d2;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0d47a1;
+            transform: scale(1.1);
+        }
+        .hidden-content {
+            display: none;
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+            animation: reveal 0.5s forwards;
+        }
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .toggle-section {
+            margin-top: 30px;
+        }
+        .toggle-button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle-button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Whaling Attack Simulation</h1>
+        <p>Select a scenario to see a simulated message targeting Jeff Bezos.</p>
+
+        <div class="toggle-section">
+            <button class="toggle-button" onclick="showPhishing()">Phishing Message</button>
+            <button class="toggle-button" onclick="showNonPhishing()">Non-Phishing Message</button>
+        </div>
+        
+        <div id="phishing-email" class="email" style="display: none;">
+            <h2>Subject: Urgent - Action Required for Amazon Board Meeting</h2>
+            <p>Dear Mr. Bezos,</p>
+            <p>We have an urgent matter that requires your immediate attention regarding the upcoming Amazon board meeting. Please review the attached document and provide your feedback by logging in with your executive credentials.</p>
+            <p>Your prompt response is crucial.</p>
+            <p>Best Regards,<br> Amazon Executive Team</p>
+            <button class="button" onclick="revealContent()">View Document</button>
+        </div>
+
+        <div id="non-phishing-email" class="email" style="display: none;">
+            <h2>Subject: Agenda for the Upcoming Board Meeting</h2>
+            <p>Dear Mr. Bezos,</p>
+            <p>We are preparing for the upcoming Amazon board meeting. Attached is the agenda and key points for discussion. Please review it at your convenience. No immediate action is required, but feel free to provide any feedback during the meeting.</p>
+            <p>Thank you for your continued leadership and support.</p>
+            <p>Best Regards,<br> Amazon Executive Team</p>
+        </div>
+
+        <div class="hidden-content" id="hidden-content">
+            <p>Warning: This is a simulated phishing attempt designed to showcase how easily high-profile targets can be manipulated through sophisticated whaling attacks.</p>
+        </div>
+    </div>
+
+    <script>
+        function showPhishing() {
+            document.getElementById('phishing-email').style.display = 'block';
+            document.getElementById('non-phishing-email').style.display = 'none';
+            document.getElementById('hidden-content').style.display = 'none';
+        }
+
+        function showNonPhishing() {
+            document.getElementById('non-phishing-email').style.display = 'block';
+            document.getElementById('phishing-email').style.display = 'none';
+            document.getElementById('hidden-content').style.display = 'none';
+        }
+
+        function revealContent() {
+            var content = document.getElementById("hidden-content");
+            content.style.display = "block";
+        }
+    </script>
+</body>
+</html>
