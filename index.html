@@ -112,6 +112,18 @@
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
         }
+        .timer {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #e53935;
+        }
+        .quiz-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .quiz-question {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -131,6 +143,7 @@
             <p>Your prompt response is crucial.</p>
             <p>Best Regards,<br> Amazon Executive Team</p>
             <button class="button" onclick="showModal()">View Document</button>
+            <div class="timer" id="timer">Time left: 20s</div>
         </div>
 
         <div id="non-phishing-email" class="email" style="display: none;">
@@ -157,31 +170,54 @@
                 <button class="button" onclick="validateLogin()">Log In</button>
             </div>
         </div>
+
+        <div id="quiz-section" class="quiz-section">
+            <h2>Quick Quiz</h2>
+            <div class="quiz-question">
+                <p>What is a whaling attack?</p>
+                <button class="toggle-button" onclick="checkAnswer(true)">Targeted phishing attack on high-profile individuals</button>
+                <button class="toggle-button" onclick="checkAnswer(false)">An attack targeting whales</button>
+            </div>
+            <p id="quiz-result"></p>
+        </div>
+
+        <div id="score">Score: 0</div>
     </div>
 
     <script>
+        let score = 0;
+        let timerInterval;
+
         function showPhishing() {
             document.getElementById('phishing-email').style.display = 'block';
             document.getElementById('non-phishing-email').style.display = 'none';
             document.getElementById('hidden-content').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
             updateProgressBar(50);
+            startTimer();
         }
 
         function showNonPhishing() {
             document.getElementById('non-phishing-email').style.display = 'block';
             document.getElementById('phishing-email').style.display = 'none';
             document.getElementById('hidden-content').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
             updateProgressBar(100);
+            stopTimer();
         }
 
         function showModal() {
             document.getElementById('modal').style.display = 'flex';
+            stopTimer();
         }
 
         function validateLogin() {
             document.getElementById('modal').style.display = 'none';
             revealContent();
             updateProgressBar(100);
+            score += 50;
+            updateScore();
+            showQuiz();
         }
 
         function revealContent() {
@@ -192,6 +228,45 @@
         function updateProgressBar(percent) {
             var progressBarFill = document.getElementById("progress-bar-fill");
             progressBarFill.style.width = percent + '%';
+        }
+
+        function startTimer() {
+            let timeLeft = 20;
+            document.getElementById('timer').innerText = `Time left: ${timeLeft}s`;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = `Time left: ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Time is up! You failed to respond in time.');
+                    updateProgressBar(0);
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timer').innerText = '';
+        }
+
+        function updateScore() {
+            document.getElementById('score').innerText = `Score: ${score}`;
+        }
+
+        function showQuiz() {
+            document.getElementById('quiz-section').style.display = 'block';
+        }
+
+        function checkAnswer(isCorrect) {
+            if (isCorrect) {
+                document.getElementById('quiz-result').innerText = 'Correct!';
+                document.getElementById('quiz-result').style.color = 'green';
+                score += 50;
+            } else {
+                document.getElementById('quiz-result').innerText = 'Incorrect. Try again!';
+                document.getElementById('quiz-result').style.color = 'red';
+            }
+            updateScore();
         }
     </script>
 </body>
